@@ -181,7 +181,7 @@ pub fn line_numbers<'doc>(
                 let display_num = if relative {
                     current_line.abs_diff(line)
                 } else {
-                    line + 1
+                    line
                 };
 
                 let style = if selected && is_focused {
@@ -211,7 +211,7 @@ fn line_numbers_width(view: &View, doc: &Document) -> usize {
     let text = doc.text();
     let last_line = text.len_lines().saturating_sub(1);
     let draw_last = text.line_to_byte(last_line) < text.len_bytes();
-    let last_drawn = if draw_last { last_line + 1 } else { last_line };
+    let last_drawn = if draw_last { last_line } else { last_line.saturating_sub(1) };
     let digits = count_digits(last_drawn);
     let n_min = view.gutters.line_numbers.min_width;
     digits.max(n_min)
